@@ -32,8 +32,8 @@ function Page() {
         },
         body: JSON.stringify({ email, password }),
       });
-      const data :UserResponseInterface = await response.json();
-      if (data.status === 200) {
+      const data: UserResponseInterface = await response.json();
+      if (data.data) {
         toast.success('Login successful');
         localStorage.setItem('userId', data.data._id);
         localStorage.setItem('userName', data.data.name);

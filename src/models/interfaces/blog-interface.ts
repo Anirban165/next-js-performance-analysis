@@ -8,11 +8,11 @@ export interface BlogInterface extends Document {
 export interface BlogResponseInterface {
     status: number;
     message: string;
-    data: BlogInterface;
+    blog?: BlogInterface;
 }
 
 export interface AllBlogsResponseInterface {
     status: number;
     message: string;
-    Blogs: BlogInterface[];
+    blogs?: BlogInterface[] | null;
 }

@@ -15,19 +15,20 @@ const CreateBlogPage: React.FC = () => {
     e.preventDefault();
     const title = titleInput.current?.value;
     const content = contentInput.current?.value;
-    // Handle form submission logic here
     if (!title || !content) {
       toast.error('Please fill in all the fields');
       return;
     }
     try {
       setLoading(true);
-      const response = await fetch('/api/blogs/create-blog', {
+      const userId = localStorage.getItem('userId');
+      const name = localStorage.getItem('userName');
+      const response = await fetch('/api/blogs/createblog', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, name, userId }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -57,7 +58,6 @@ const CreateBlogPage: React.FC = () => {
           height={600}
         />
       </div>
-
       <div className="md:mt-20 bg-white rounded-xl shadow-lg p-10">
         <h1 className="text-center font-semibold text-5xl">
           Create a New Blog

@@ -10,5 +10,5 @@ export interface UserInterface {
 export interface UserResponseInterface {
     status: number;
     message: string;
-    data: UserInterface;
+    data?: UserInterface;
 }
