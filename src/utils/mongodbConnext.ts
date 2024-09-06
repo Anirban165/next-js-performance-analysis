@@ -1,14 +1,26 @@
 import mongoose from 'mongoose';
-
-const connectToMongoDB = async (): Promise<void> => {
-    try {
-        await mongoose.connect(process.env.MONGODB_URI as string);
-        console.log('Connected to MongoDB');
-        return Promise.resolve();
-    } catch (error) {
-        console.error('Failed to connect to MongoDB:', error);
-        return Promise.reject(error);
-    }
+type ConnectionObject = {
+ isConnected?: number;
 };
 
-export default connectToMongoDB;
+const connection: ConnectionObject = {};
+
+export default async function connectToDb() {
+ if (connection.isConnected) {
+  console.log("Already connected to database. Logged from: mongodbConnect.ts");
+  return;
+ }
+ try {
+  const db = await mongoose.connect(process.env.MONGODB_URI!);
+  connection.isConnected = db.connections[0].readyState;
+  mongoose.connection.on('connection', () => {
+   // ! This callback can be used for testing / implementing middlewares
+  });
+  mongoose.connection.on('error', () => {
+   console.error('Error connecting to database. Logged from: mongodbConnect.ts');
+  });
+ } catch (error: any) {
+    console.error('Error connecting to database. Logged from: mongodbConnect.ts');
+  process.exit(1);
+ }
+}

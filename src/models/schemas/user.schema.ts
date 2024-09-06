@@ -1,20 +1,24 @@
-import mongoose, { Schema, Document } from 'mongoose';
-import { PostSchema } from './post.schema';
+import mongoose from 'mongoose';
 
-export interface UserSchema extends Document {
-    name: string;
-    email: string;
-    password: string;
-    totalPosts: number;
-    posts: PostSchema[];
-}
-
-const userSchema: Schema = new Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    totalPosts: { type: Number, default: 0 },
-    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+const userSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  posts: {
+    type: Array,
+    default: [],
+  },
 });
 
-export const User = mongoose.model<UserSchema>('User', userSchema);
+const User = mongoose.models.user || mongoose.model('user', userSchema);
+
+export default User;
