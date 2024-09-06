@@ -1,36 +1,157 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Project Demonstrating CSR, SSG, ISR, SSR
 
-## Getting Started
+I have created a Next.js project that demonstrates different data-fetching strategies using the App Router. Below are the routes and their corresponding rendering methods:
 
-First, run the development server:
+- `/` -> **SSG** (Static Site Generation)
+- `/login`, `/signup`, `/create-blog` -> **CSR** (Client-Side Rendering)
+- `/read-blogs` -> **ISR** (Incremental Static Regeneration)
+- `/read-blogs/[id]` -> **SSR** (Server-Side Rendering)
+
+Here's a simple "Run the Project" Markdown file:
+
+# Running the Project
+
+To get started with the project, follow these steps:
+
+## 1. Clone the Repository
+
+First, clone the repository to your local machine:
+
+```bash
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+```
+
+## 2. Install Dependencies
+
+Install the required dependencies using npm or yarn:
+
+```bash
+npm install
+# or
+yarn install
+```
+
+## 3. Set Up Environment Variables
+
+In the root directory of the project, there is an `.env.sample` file. This file contains the structure of the environment variables required to run the project.
+
+### Steps:
+
+1. Create a `.env.local` file in the root directory:
+
+   ```bash
+   touch .env.local
+   ```
+
+2. Copy the contents of the `.env.sample` file into the newly created `.env.local` file:
+
+   ```bash
+   cp .env.sample .env.local
+   ```
+
+3. Fill in the values for the environment variables in `.env.local` based on your local configuration.
+
+## 4. Run the Development Server
+
+After setting up the environment variables, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Your project should now be running at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 5. Build and Start the Project (Optional)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build and start the project in production mode:
 
-## Learn More
+```bash
+npm run build
+npm start
+# or
+yarn build
+yarn start
+```
 
-To learn more about Next.js, take a look at the following resources:
+This will build the project and start it on `http://localhost:3000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Understanding CSR, ISR, SSR and SSG in Next.js App Router
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### CSR (Client-Side Rendering)
 
-## Deploy on Vercel
+In Client-Side Rendering (CSR), the content is rendered on the client side using JavaScript. Here's an example:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```tsx
+'use client'; // This makes the page render on the client side
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+import React from 'react';
+
+export default function CreateBlogPage() {
+  return <div>Create your blog here!</div>;
+}
+```
+
+The `use client` directive ensures that this page is rendered entirely on the client.
+
+### ISR (Incremental Static Regeneration)
+
+ISR is a hybrid approach that allows you to update static content after it's been built. It revalidates the page at a specified interval:
+
+```tsx
+import React from 'react';
+
+export default async function BlogList() {
+  const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+    next: { revalidate: 60 }, // Revalidates every 60 seconds
+  });
+  const posts = await response.json();
+
+  return <div>{posts.map(post => <div key={post.id}>{post.title}</div>)}</div>;
+}
+```
+
+This page is pre-rendered at build time and updates every 60 seconds.
+
+
+### SSR (Server-Side Rendering)
+
+In Server-Side Rendering (SSR), the content is rendered on the server for every request. For example:
+
+```tsx
+import React from 'react';
+
+export default async function PostDetails({ params }: { params: { id: string } }) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`);
+  const post = await response.json();
+
+  return <div>{post.title}</div>;
+}
+```
+
+This page fetches data on the server and sends the fully rendered HTML to the client.
+
+### SSG (Static Site Generation)
+
+Static Site Generation (SSG) generates the HTML at build time. The content is static and doesn't change on each request. Here's a basic example:
+
+```tsx
+import React from 'react';
+
+export default function Home() {
+  return <div>Welcome to the Home Page!</div>;
+}
+```
+
+Since there's no data fetching or `use client` directive, this page is pre-rendered at build time and served as static HTML.
+
+
+## API Routes in Next.js
+
+In the Next.js App Router, CSR can seamlessly use Next.js API routes. However, for SSR, SSG, and ISR, you typically interact with external APIs or server-side functions instead of directly using Next.js API routes.
+
+## Postman Collection
+
+If you want to test the Next.js API routes, I have attached a Postman collection named: `quilog.postman_collection.json`. Feel free to explore and test the API routes with this collection.
