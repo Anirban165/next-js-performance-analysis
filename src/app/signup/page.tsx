@@ -1,14 +1,17 @@
 'use client';
 import Image from 'next/image';
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import homepageImage from '@/assets/homepage-image.png';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import StyledInput from '@/components/StyledInput';
 import { useRouter } from 'next/navigation';
+import LoadingButton from '@/components/LoadingButton';
+import { UserResponseInterface } from '@/models/interfaces/user-interface';
 
 function Page() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const nameInput = useRef<HTMLInputElement | null>(null);
   const emailInput = useRef<HTMLInputElement | null>(null);
   const passwordInput = useRef<HTMLInputElement | null>(null);
@@ -23,6 +26,7 @@ function Page() {
       return;
     }
     try {
+      setLoading(true);
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -30,9 +34,11 @@ function Page() {
         },
         body: JSON.stringify({ name, email, password }),
       });
-      const data = await response.json();
+      const data: UserResponseInterface = await response.json();
       if (data.data) {
         toast.success('Signup successful');
+        localStorage.setItem('userId', data.data._id);
+        localStorage.setItem('userName', data.data.name);
         router.replace('/read-blogs');
       } else {
         toast.error(data.message);
@@ -40,13 +46,15 @@ function Page() {
     } catch (error) {
       console.error('Error during signup:', error);
       toast.error('Error during signup');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 space-x-reverse">
       <div className="text-center mt-20 mb-10">
-        <h1 className="text-5xl font-semibold">Let's Blog it</h1>
+        <h1 className="text-5xl font-semibold">Blog it</h1>
         <Image
           className="hidden md:block mt-5"
           src={homepageImage}
@@ -95,12 +103,12 @@ function Page() {
             </p>
           </div>
 
-          <button
+          <LoadingButton
             className="w-full border-2 border-gray-600 py-2 my-6 text-2xl"
+            loading={loading}
+            text="Sign Up"
             type="submit"
-          >
-            Sign Up
-          </button>
+          />
         </form>
       </div>
     </div>

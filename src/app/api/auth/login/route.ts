@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       message: 'User found',
       data: user,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error during login:', error);
     return NextResponse.json({

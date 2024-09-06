@@ -2,7 +2,7 @@ import User from '@/models/schemas/user.schema';
 import connectToDb from '@/utils/mongodbConnext';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const reqBody = await req.json();
   const { name, email, password } = reqBody;
   try {
@@ -23,6 +23,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       message: 'User created successfully',
       data: createdUser,
     });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     return NextResponse.json({
       status: 500,
