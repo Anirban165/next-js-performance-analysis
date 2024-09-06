@@ -3,10 +3,12 @@ import Image from 'next/image';
 import React from 'react';
 import homepageImage from '@/assets/homepage-image.png';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 function Page() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    toast.info("This feature is not available yet. Please try again later.");
   };
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-2 space-x-reverse">
