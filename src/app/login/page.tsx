@@ -37,6 +37,7 @@ function Page() {
         toast.success('Login successful');
         localStorage.setItem('userId', data.data._id);
         localStorage.setItem('userName', data.data.name);
+        router.refresh();
         router.replace('/read-blogs');
       } else {
         toast.error(data.message);

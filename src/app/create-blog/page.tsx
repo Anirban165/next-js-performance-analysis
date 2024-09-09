@@ -6,6 +6,7 @@ import StyledInput from '@/components/StyledInput';
 import LoadingButton from '@/components/LoadingButton';
 import { toast } from 'sonner';
 
+
 const CreateBlogPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const titleInput = useRef<HTMLInputElement | null>(null);

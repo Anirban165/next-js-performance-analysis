@@ -1,8 +1,10 @@
 import User from '@/models/schemas/user.schema';
 import connectToDb from '@/utils/mongodbConnext';
 import { NextRequest, NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function POST(req: NextRequest) {
+  const cookie = cookies()
   const reqBody = await req.json();
   const { name, email, password } = reqBody;
   try {
@@ -18,6 +20,9 @@ export async function POST(req: NextRequest) {
     }
 
     const createdUser = await User.create({ name, email, password });
+
+    cookie.set("userID", user._id)
+    cookie.set("name", user.name)
     return NextResponse.json({
       status: 201,
       message: 'User created successfully',
