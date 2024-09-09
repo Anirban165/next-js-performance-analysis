@@ -8,12 +8,15 @@ import StyledInput from '@/components/StyledInput';
 import { useRouter } from 'next/navigation';
 import LoadingButton from '@/components/LoadingButton';
 import { UserResponseInterface } from '@/models/interfaces/user-interface';
+import { useAtom } from 'jotai';
+import { userNameAtom } from '../store';
 
 function Page() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const emailInput = useRef<HTMLInputElement | null>(null);
   const passwordInput = useRef<HTMLInputElement | null>(null);
+  const [, setUserName] = useAtom(userNameAtom);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +40,7 @@ function Page() {
         toast.success('Login successful');
         localStorage.setItem('userId', data.data._id);
         localStorage.setItem('userName', data.data.name);
+        setUserName(data.data.name); 
         router.refresh();
         router.replace('/read-blogs');
       } else {

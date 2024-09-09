@@ -1,25 +1,30 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logoWithSideName from '@/assets/logo-with-side-name.png';
 import { CgProfile } from 'react-icons/cg';
 import { useRouter } from 'next/navigation';
+import { useAtom } from 'jotai';
+import { userNameAtom } from '@/app/store';
 
 export default function NavBar() {
   const router = useRouter();
-  const [userName, setUsername] = useState<string | null>(null);
+  const [userName, setUserName] = useAtom(userNameAtom);
 
   useEffect(() => {
-    const storedUserName = localStorage.getItem('userName');
-    setUsername(storedUserName);
-  }, []);
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+      setUserName(userName);
+    }
+  }, [])
+
 
   const logout = () => {
     localStorage.clear();
+    setUserName(null); 
     router.replace('/');
-    setUsername(null);
-  }
+  } 
 
   return (
     <div className="flex justify-between items-center backdrop-blur-lg bg-white/20 mt-2 py-2 px-6 shadow-md rounded-lg z-50">
