@@ -31,7 +31,7 @@ const CreateBlogPage: React.FC = () => {
         body: JSON.stringify({ title, content, name, userId }),
       });
       const data = await response.json();
-      if (response.ok) {
+      if (data.data) {
         toast.success('Blog created successfully');
         titleInput.current!.value = '';
         contentInput.current!.value = '';
