@@ -2,8 +2,9 @@ import BlogCard from '@/components/BlogCard';
 import React from 'react';
 
 async function fetchPost(postId: string) {
+  const base_url = process.env.NEXT_PUBLIC_API_URL;
   const response = await fetch(
-    `https://jsonplaceholder.typicode.com/posts/${postId}`,
+    `${base_url}/posts/${postId}`,
   );
   if (!response.ok) {
     throw new Error('Failed to fetch post');

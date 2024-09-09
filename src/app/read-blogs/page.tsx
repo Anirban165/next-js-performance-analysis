@@ -3,7 +3,8 @@ import Link from 'next/link';
 import React from 'react';
 
 async function page() {
-  const data = await fetch('https://jsonplaceholder.typicode.com/posts', {
+  const base_url = process.env.NEXT_PUBLIC_API_URL;
+  const data = await fetch(`${base_url}/posts`, {
     next: { revalidate: 60 },
   });
   const postData: {

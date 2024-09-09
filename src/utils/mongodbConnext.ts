@@ -23,6 +23,6 @@ export default async function connectToDb() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error connecting to database. Logged from: mongodbConnect.ts');
-    process.exit(1);
+    // process.exit(1);
   }
 }
