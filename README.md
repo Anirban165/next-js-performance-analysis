@@ -7,8 +7,6 @@ I have created a Next.js project that demonstrates different data-fetching strat
 - `/read-blogs` -> **ISR** (Incremental Static Regeneration)
 - `/read-blogs/[id]` -> **SSR** (Server-Side Rendering)
 
-Here's a simple "Run the Project" Markdown file:
-
 # Running the Project
 
 To get started with the project, follow these steps:
