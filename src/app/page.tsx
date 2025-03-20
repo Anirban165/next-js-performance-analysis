@@ -13,7 +13,7 @@ export default function Home() {
           'text-5xl md:text-7xl pt-28 pb-20 w-full text-center md:w-2/3 sm:text-left font-semibold tracking-wide'
         }
       >
-        The secret to getting ahead is getting started.
+        The secret to getting ahead is getting started here.
       </h1>
 
       <div className={' grid grid-cols-1 lg:grid-cols-2'}>
