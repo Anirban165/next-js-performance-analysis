@@ -1,4 +1,4 @@
-# Next.js Project Demonstrating CSR, SSG, ISR, SSR
+# Next.js  tProject Demonstrating CSR, SSG, ISR, SSR
 
 I have created a Next.js project that demonstrates different data-fetching strategies using the App Router. Below are the routes and their corresponding rendering methods:
 
